@@ -15,5 +15,7 @@ return pool
     console.log(error)
 }
 }
+export {sql
+    };
  
  
