@@ -1,9 +1,11 @@
+// clientController.js
 import { getConnection, sql, queries } from "../database";
 
-export const getProducts = async (req, res) => {
+export const getClients = async (req, res) => {
+  console.log("conectad")
   try {
     const pool = await getConnection();
-    const result = await pool.request().query(queries.getAllProducts);
+    const result = await pool.request().query(queries.getAllClients);
 
     res.json(result.recordset);
   } catch (error) {
@@ -12,11 +14,11 @@ export const getProducts = async (req, res) => {
   }
 };
 
-export const createNewProduct = async (req, res) => {
-  const { name, description, quantity } = req.body;
-  if (name == null || description == null || quantity == null) {
+export const createNewClient = async (req, res) => {
+  const { name, lastName, dni, cardNum } = req.body;
+  if (name == null || lastName == null || dni == null || cardNum == null) {
     return res.status(400).json({
-      msg: "Bad Request. Porfavor introduce todos los campos",
+      msg: "Bad Request. Por favor introduce todos los campos",
     });
   }
   try {
@@ -24,26 +26,25 @@ export const createNewProduct = async (req, res) => {
     await pool
       .request()
       .input("name", sql.VarChar, name)
-      .input("description", sql.VarChar, description)
-      .input("quantity", sql.Int, quantity)
-      .query(queries.createNewProduct);
-    console.log(name, description, quantity);
-    res.json(name, description, quantity);
+      .input("lastName", sql.VarChar, lastName)
+      .input("dni", sql.VarChar, dni)
+      .input("cardNum", sql.VarChar, cardNum)
+      .query(queries.createNewClient);
+    res.json({ name, lastName, dni, cardNum });
   } catch (error) {
     res.status(500);
     res.send(error.message);
   }
 };
 
-export const getProductById = async (req, res) => {
+export const getClientById = async (req, res) => {
   const { id } = req.params;
   try {
     const pool = await getConnection();
     const result = await pool
       .request()
-
       .input("id", sql.Int, id)
-      .query(queries.getProductById);
+      .query(queries.getClientById);
 
     res.json(result.recordset[0]);
   } catch (error) {
@@ -52,15 +53,14 @@ export const getProductById = async (req, res) => {
   }
 };
 
-export const deleteProductById = async (req, res) => {
+export const deleteClientById = async (req, res) => {
   const { id } = req.params;
   try {
     const pool = await getConnection();
     const result = await pool
       .request()
-
       .input("id", sql.Int, id)
-      .query(queries.deleteProductById);
+      .query(queries.deleteClientById);
 
     res.json(result);
   } catch (error) {
@@ -70,12 +70,12 @@ export const deleteProductById = async (req, res) => {
   }
 };
 
-export const updateProduct = async (req, res) => {
+export const updateClient = async (req, res) => {
   const { id } = req.params;
-  const { name, description, quantity } = req.body;
-  if (name == null || description == null || quantity == null) {
+  const { name, lastName, dni, cardNum } = req.body;
+  if (name == null || lastName == null || dni == null || cardNum == null) {
     return res.status(400).json({
-      msg: "Bad Request. Porfavor introduce todos los campos",
+      msg: "Bad Request. Por favor introduce todos los campos",
     });
   }
   try {
@@ -83,12 +83,12 @@ export const updateProduct = async (req, res) => {
     await pool
       .request()
       .input("name", sql.VarChar, name)
-      .input("description", sql.VarChar, description)
-      .input("quantity", sql.Int, quantity)
+      .input("lastName", sql.VarChar, lastName)
+      .input("dni", sql.VarChar, dni)
+      .input("cardNum", sql.VarChar, cardNum)
       .input("id", sql.Int, id)
-      .query(queries.updateProduct);
-    console.log(name, description, quantity);
-    res.json(name, description, quantity);
+      .query(queries.updateClient);
+    res.json({ name, lastName, dni, cardNum });
   } catch (error) {
     res.status(500);
     res.send(error.message);

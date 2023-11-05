@@ -1,0 +1,30 @@
+@api = http://localhost:3000/ProductProviders
+
+###
+GET {{api}}
+###
+
+POST {{api}}
+Content-Type: application/json
+
+{
+    "socialReason": "Proveedor 2",
+    "phone": "123456789",
+    "address": "Dirección 2"
+}
+###
+
+GET {{api}}/1
+###
+
+DELETE {{api}}/2
+###
+
+PUT {{api}}/1
+Content-Type: application/json
+
+{
+    "socialReason": "Proveedor Modificado 1",
+    "phone": "987654321",
+    "address": "Dirección Modificada 1"
+}
